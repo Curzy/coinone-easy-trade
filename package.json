@@ -2,7 +2,10 @@
   "name": "coinone-easy-trade",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://Curzy.github.io/coinone-easy-trade",
   "dependencies": {
+    "axios": "^0.18.0",
+    "dotenv": "^5.0.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.1"
