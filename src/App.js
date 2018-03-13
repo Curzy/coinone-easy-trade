@@ -71,7 +71,7 @@ class App extends Component {
           <h1 className="App-title">Coinone Easy Trade</h1>
         </header>
         <p className="App-intro">
-          To get started, edit Login with oAuth to Coinone.
+          To get started, Get your personal API Key from <a href="https://coinone.co.kr/developer/app/" target="_blank" rel="noopener noreferrer">Coinone</a> and set your <strong>ACCESS_TOKEN</strong> and <strong>SECRET_KEY</strong> to <code>.env</code>
         </p>
       </div>
     );
