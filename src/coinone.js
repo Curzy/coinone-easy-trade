@@ -6,7 +6,8 @@ class CoinoneAPIv2 {
   constructor(accessToken, secretKey) {
     this.accessToken = accessToken;
     this.secretKey = secretKey;
-    this.url = 'https://api.coinone.co.kr/v2';
+    this.proxy = 'https://thingproxy.freeboard.io/fetch/';
+    this.url = this.proxy + 'https://api.coinone.co.kr/v2';
     this.payload = {
       'access_token': accessToken,
       'nonce': Date.now()
