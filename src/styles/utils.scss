@@ -7,11 +7,3 @@ $breakpoints: (
   large: 1024px,
   huge: 1200px,
 );
-
-$size: 100px;
-
-@mixin place-center() {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}

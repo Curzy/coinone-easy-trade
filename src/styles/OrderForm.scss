@@ -53,10 +53,11 @@ form {
       width: 100%;
       height: 52px;
       margin: 0 auto;
+      border: none;
       border-radius: 2px;
 
       font-size: 1.1em;
-      font-weight: bold;
+      font-weight: 500;
       color: $oc-gray-0;
       cursor: pointer;
       background-color: $oc-indigo-7;

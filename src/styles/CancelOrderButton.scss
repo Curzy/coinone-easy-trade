@@ -1,0 +1,11 @@
+@import 'utils';
+
+
+.cancel-order-button {
+  width: 100%;
+  height: 100%;
+
+  background-color: $oc-indigo-7;
+  color: $oc-gray-0;
+  border: 1px solid $oc-indigo-7;
+}

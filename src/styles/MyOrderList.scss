@@ -24,6 +24,14 @@ table {
   }
 
   tbody {
+    tr:nth-child(3n) {
+      margin-bottom: 4px;
+
+      td {
+        padding: 0;
+      }
+    }
+
     td {
       padding: 4px;
       text-align: right;

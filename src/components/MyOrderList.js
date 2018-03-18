@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import 'styles/MyOrderList.scss';
+import CancelOrderButton from 'Components/CancelOrderButton';
 
 
 class MyOrderList extends Component {
@@ -42,7 +43,9 @@ class MyOrderList extends Component {
               </tr>
               <tr key={order.orderId + '_3'}>
                 <td colSpan='3'>
-                  <button>주문 취소</button>
+                  <CancelOrderButton 
+                  
+                  />
                 </td>
               </tr>
               </React.Fragment>
