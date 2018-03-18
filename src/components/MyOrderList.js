@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import moment from 'moment';
-import './MyOrderList.scss';
+import 'styles/MyOrderList.scss';
 
 
 class MyOrderList extends Component {

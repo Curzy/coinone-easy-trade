@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import CoinoneAPI from './coinone';
-import MyOrderLists from './MyOrderList';
+import logo from 'media/logo.svg';
+import 'styles/App.scss';
+import CoinoneAPI from 'lib/coinone';
+import MyOrderList from 'Components/MyOrderList';
 
 
 class App extends Component {
@@ -254,7 +254,7 @@ class App extends Component {
           </div>
           <div>
             거래 내역
-            <MyOrderLists
+            <MyOrderList
               limitOrders={this.state.limitOrders}
               completeOrders={this.state.completeOrders}
               currency={this.state.currency}
