@@ -1,0 +1,65 @@
+@import 'utils';
+
+
+form {
+  .section {
+    margin-bottom: 12px;
+
+    .section-header {
+      text-align: left;
+
+      margin-bottom: 4px;
+      margin-left: 4px;
+
+      font-size: 0.6em;
+      font-weight: bold;
+    }
+
+    .input-box {
+      position: relative;
+
+      input[type=number] {
+        width: 100%;
+        height: 36px;
+        padding: 8px 4px 8px 12px;
+        border: 1px solid $oc-gray-7;
+        border-radius: 2px;
+
+        font-size: 0.8em;
+      }
+
+      span {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        font-size: 0.8em;
+        font-weight: bold;
+        color: $oc-indigo-7;
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  .submit-section {
+    margin-top: 24px;
+
+    p {
+      margin-bottom: 4px;
+      text-align: right;
+      font-size: 0.8em;
+    }
+
+    input[type=submit] {
+      width: 100%;
+      height: 52px;
+      margin: 0 auto;
+      border-radius: 2px;
+
+      font-size: 1.1em;
+      font-weight: bold;
+      color: $oc-gray-0;
+      cursor: pointer;
+      background-color: $oc-indigo-7;
+    }
+  }
+}

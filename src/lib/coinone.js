@@ -13,7 +13,6 @@ class CoinoneAPI {
       'access_token': accessToken,
       'nonce': Date.now()
     };
-
   }
 
   getEncodedPayload(payload) {

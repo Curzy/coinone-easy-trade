@@ -1,22 +1,85 @@
+@import 'utils';
+
 .App {
   text-align: center;
 
-  .App-logo {
-    height: 80px;
+  &-logo {
+    height: 40px;
+    position: center;
   }
 
-  .App-header {
-    background-color: #000;
-    height: 150px;
-    padding: 20px;
-    color: white;
+  &-header {
+    margin: auto;
+    width: 92%;
+    height: 120px;
+    padding-top: 20px;
+    padding-bottom: 120px;
+    border-bottom: 3px solid $oc-indigo-7;
   }
 
-  .App-title {
+  &-title {
     font-size: 1.5em;
   }
 
-  .App-intro {
+  &-intro {
     font-size: large;
+  }
+
+  .now-loading {
+    color: $oc-indigo-7;
+    font-weight: bold;
+    font-size: 3em;
+  }
+
+  .btc-ticker-section {
+    margin-bottom: 12px;
+    p {
+      margin: 0;
+
+      &.btc-ticker-price {
+        color: $oc-indigo-7;
+        font-weight: bold;
+        font-size: 3em;
+      }
+
+      &.btc-ticker-currency {
+        margin-bottom: 12px;
+
+        font-size: 0.8em;
+      }
+    }
+  }
+
+  .order-wrapper {
+    width: 92%;
+    margin: auto;
+
+    .buy-sell-flag {
+      width: 100%;
+
+      margin-bottom: 12px;
+
+      button {
+        width: 49%;
+        font-size: 1.2em;
+        font-weight: bold;
+
+        border: 1px solid $oc-indigo-7;
+        border-radius: 2px;
+
+        &.current-type {
+          background-color: $oc-indigo-7;
+          color: $oc-gray-0;
+        }
+
+        &:first-child {
+          margin-right: 1%;
+        }
+
+        &:nth-child(2) {
+          margin-left: 1%;
+        }
+      }
+    }
   }
 }

@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import logo from 'media/logo.svg';
-import 'styles/App.scss';
+import classNames from 'classnames/bind';
 import CoinoneAPI from 'lib/coinone';
+import Balance from 'Components/Balance';
 import MyOrderList from 'Components/MyOrderList';
+import styles from 'styles/App.scss';
+import OrderForm from './OrderForm';
+const cx = classNames.bind(styles);
 
 
 class App extends Component {
@@ -10,6 +14,7 @@ class App extends Component {
     super(props);
     
     this.state = {
+      ready: false,
       amount: 0.00,
       limitPrice: 0.00,
       totalPrice: 0.00,
@@ -19,16 +24,6 @@ class App extends Component {
       userInfo: {},
       balance: {},
       orderType: 'buy',
-      orderParams: {
-        buy: {
-          quantity: 0.0,
-          price: 0,
-        },
-        sell: {
-          quantity: 0.0,
-          price: 0,
-        },
-      },
       limitOrders: {
         btc: [],
       },
@@ -41,8 +36,6 @@ class App extends Component {
 
     this.coinone = new CoinoneAPI(process.env.REACT_APP_ACCESS_TOKEN, process.env.REACT_APP_SECRET_KEY);
     this.handleOrderTypeChange = this.handleOrderTypeChange.bind(this)
-    this.handleOrderParamChange = this.handleOrderParamChange.bind(this);
-    this.handleOrderSubmit = this.handleOrderSubmit.bind(this)
   }
 
   getBaseInformations(coinone) {
@@ -54,6 +47,7 @@ class App extends Component {
     Promise.all([ticker, userInfo, balance, limitOrders, completeOrders])
       .then(result => {
         this.setState({
+          ready: true,
           ticker: {
             btc: result[0]
           },
@@ -93,7 +87,7 @@ class App extends Component {
   }
 
   formatMoney(number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }
 
   isEmptyObject(obj) {
@@ -111,44 +105,8 @@ class App extends Component {
     })
   }
 
-  handleOrderParamChange(e) {
-    const orderParams = Object.assign({}, this.state.orderParams)
-    let value = e.target.value;
-    if (!isNaN(value) && value.includes('.')) {
-      if (value.slice(-1) === '0' || value.slice(-1) === '.') {}
-      else {
-        value = Number(value)
-      }
-    }
-    orderParams[this.state.orderType][e.target.name] = value;
-    this.setState(orderParams);
-  }
-
-  handleOrderSubmit(e) {
-    e.preventDefault();
-    const orderType = this.state.orderType;
-    const price = this.state.orderParams[orderType].price;
-    const qty = this.state.orderParams[orderType].quantity;
-    
-    const limitOrder = orderType === 'buy' ? 
-      this.coinone.limitBuy(price, qty, 'btc') : this.coinone.limitSell(price, qty, 'btc')
-
-    limitOrder
-      .then(result => {
-        this.coinone.limitOrders('btc')
-          .then(result => {
-            this.setState({
-              limitOrders: {
-                btc: result.limitOrders
-              }
-            })
-          }
-        );
-    })
-  }
-
   componentDidMount() {
-    this.getBaseInformations(this.coinone)
+    this.getBaseInformations(this.coinone);
     this.intervalId = setInterval(this.refreshInfo, 3000, this.coinone);
   }
 
@@ -157,111 +115,48 @@ class App extends Component {
   }
 
   render() {
-
-    const welcome = !this.isEmptyObject(this.state.userInfo) ? (
-      <p className='App-intro'>{this.state.userInfo.mobileInfo.userName}님 환영합니다!</p> 
-    ) : (
-      <p className='App-intro need-cert'>코인원에서 인증을 마쳐야 합니다</p> 
-    )
-
-    const balance = !this.isEmptyObject(this.state.balance) ? (
-      <div className='balance'>
-        <p className='balance-btc'>BTC / 거래 가능: {this.state.balance.btc.avail} 자산: {this.state.balance.btc.balance}</p>
-        <p className='balance-krw'>KRW / 거래 가능: {this.state.balance.krw.avail} 자산: {this.state.balance.krw.balance}</p>
-      </div>
-    ) : (
-      <div className='balance no-balance'>
-        지갑 정보를 불러올 수 없습니다
-      </div>
-    );
-
-    const btcTicker = !this.isEmptyObject(this.state.ticker.btc) ? this.formatMoney(this.state.ticker.btc.last) : 'BTC 가격을 불러올 수 없습니다'
-
-    const buyForm = (
-      <form onSubmit={this.handleOrderSubmit}>
-        <input name='order-type' value='buy' type='hidden'/>
-        <input name='currency' value={this.state.currency} type='hidden'/>
-        <label>매수 수량:
-          <input
-            name='quantity'
-            type='text'
-            value={this.state.orderParams.buy.quantity}
-            onChange={this.handleOrderParamChange}
-          />
-          {this.state.currency.toUpperCase()}
-        </label>
-        <label>매수 단가:
-          <input
-            name='price'
-            type='text'
-            value={this.state.orderParams.buy.price}
-            onChange={this.handleOrderParamChange}
-          />
-          원
-        </label>
-        <input type='submit' value='매수 주문' />
-      </form>
-    )
-
-    const sellForm = (
-      <form onSubmit={this.handleOrderSubmit}>
-        <input name='order-type' value='sell' type='hidden'/>
-        <input name='currency' value={this.state.currency} type='hidden'/>
-        <label>매도 수량:
-          <input
-            name='quantity'
-            type='text'
-            value={this.state.orderParams.sell.quantity}
-            onChange={this.handleOrderParamChange}
-          />
-          {this.state.currency.toUpperCase()}
-        </label>
-        <label>매도 단가:
-          <input
-            name='price'
-            type='text'
-            value={this.state.orderParams.sell.price}
-            onChange={this.handleOrderParamChange}
-          />
-          원
-        </label>
-        <input type='submit' value='매도 주문' />
-      </form>
-    )
-
-    const orderForm = this.state.orderType === 'buy' ? buyForm : sellForm
+    const btcTicker = !this.isEmptyObject(this.state.ticker.btc) ? this.formatMoney(this.state.ticker.btc.last) : 'BTC 가격 가져오는 중'
 
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Coinone Easy Trade</h1>
+      <div className={cx('App')}>
+        <header className={cx('App-header')}>
+          <img src={logo} className={cx('App-logo')} alt='logo' />
+          <h1 className={cx('App-title')}>Coinone Easy Trade</h1>
         </header>
-        <div>
-          {welcome}
-          {balance}
-        </div>
-        <div className='btc-ticker'>
-          <p>BTC/KRW {btcTicker}원</p>
-        </div>
-        <div className='order-section'>
-          <div className='buy-sell-flag'>
-            <button value='buy' onClick={this.handleOrderTypeChange}>BUY</button>
-            <button value='sell' onClick={this.handleOrderTypeChange}>SELL</button>
+        { !this.state.ready ?
+          <p className={cx('now-loading')}>로딩중..</p> :
+          <div className={cx('content-wrapper')}>
+            <div className={cx('btc-ticker-section')}>
+              <p className={cx('btc-ticker-price')}>{btcTicker}</p>
+              <p className={cx('btc-ticker-currency')}>KRW/BTC</p>
+            </div>
+            <div className={cx('balance-wrapper')}>
+              <Balance
+                balance={this.state.balance}
+              />
+            </div>
+            <div className={cx('order-wrapper')}>
+              <div className={cx('buy-sell-flag')}>
+                <button className={cx({'current-type': this.state.orderType === 'buy'})} value='buy' onClick={this.handleOrderTypeChange}>매수</button>
+                <button className={cx({'current-type': this.state.orderType === 'sell'})} value='sell' onClick={this.handleOrderTypeChange}>매도</button>
+              </div>
+              <OrderForm
+                currency={this.state.currency}
+                coinone={this.coinone}
+                orderType={this.state.orderType}
+                formatMoney={this.formatMoney}
+              />
+            </div>
+            <div className={cx('order-list-wrapper')}>
+              <MyOrderList
+                limitOrders={this.state.limitOrders}
+                completeOrders={this.state.completeOrders}
+                currency={this.state.currency}
+                formatMoney={this.formatMoney}
+              />
+            </div>
           </div>
-          <div>
-            {orderForm}
-          </div>
-          <div>
-            거래 내역
-            <MyOrderList
-              limitOrders={this.state.limitOrders}
-              completeOrders={this.state.completeOrders}
-              currency={this.state.currency}
-              formatMoney={this.formatMoney}
-            />
-          </div>
-        </div>
+        }
       </div>
     );
   }
