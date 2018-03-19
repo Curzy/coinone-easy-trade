@@ -5,11 +5,11 @@
   text-align: center;
 
   @include media('<huge') {
-    width: 768px;
+    width: 425px;
   }
 
   @include media('<large') {
-    width: 768px;
+    width: 425px;
   }
 
   @include media('<medium') {
@@ -74,6 +74,7 @@
 
       button {
         width: 49%;
+        padding: 4px 0;
         font-size: 1.2em;
         font-weight: 500;
 

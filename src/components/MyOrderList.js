@@ -11,7 +11,7 @@ class MyOrderList extends Component {
     const completeOrders = this.props.completeOrders;
     const currency = this.props.currency;
 
-    const myOrders = limitOrders[currency] === undefined || completeOrders[currency] === undefined ? 
+    const myOrders = limitOrders[currency] === undefined || completeOrders[currency] === undefined ?
         [] : limitOrders[currency]
           .concat(completeOrders[currency]).sort(order => {
             return order.timestamp
