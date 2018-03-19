@@ -10,7 +10,6 @@
 ## Description
   - 데스크톱 환경에서 사용자는 [차트](https://coinone.co.kr/chart/?site=Coinone&unit_time=15m)와 [거래소](https://coinone.co.kr/exchange/trade/btc/)를 한눈에 들어오게 배치하여 암호화폐를 거래할 수 있습니다
   - 그러나 모바일 환경에서는 화면 분할, 동시 배치가 어렵고, 많은 정보가 있더라도 작은 화면에 의해 정보를 효율적으로 받아들이기 어려울 수 있습니다
-  - 데스크톱 환경에서 사용자는 [차트](https://coinone.co.kr/chart/?site=Coinone&unit_time=15m)와 [거래소](https://coinone.co.kr/exchange/trade/btc/)를 한눈에 들어오게 배치하여 암호화폐를 거래할 수 있습니다
   - 최대한 Simple하게 사용자가 `사느냐/파느냐` 하는 결정을 내리고 실행할 수 있도록 `coinone-easy-trade`를 개발하였습니다
   - 구조는 백엔드 API 서버 없이, JS로 작성한 [API Wrapper ClassReact](https://github.com/Curzy/coinone-easy-trade/blob/master/src/lib/coinone.js)를 이용해 React앱에서 `Coinone API`서버와 통신합니다
   - 백엔드 서버가 아닌 브라우저에서 구동되는 클라이언트에서 통신하여 `Preflight Request`에서 발생하는 CORS문제를 해결하기 위해 요청 앞에 프록시를 통하게 하였습니다
