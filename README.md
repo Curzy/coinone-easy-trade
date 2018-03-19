@@ -11,7 +11,7 @@ Easy, Simple trading web for coinone
 ## Introduction
  ### Installing
  ```
- $ git@github.com:Curzy/coinone-easy-trade.git
+ $ git clone git@github.com:Curzy/coinone-easy-trade.git
  ```
  ### Setting
  1. [Coinone](https://coinone.co.kr/developer/app/)에서 API V2, 거래소 조회, 사용자 조회, 거래소 주문의 설정으로 API Key를 발급받는다.
