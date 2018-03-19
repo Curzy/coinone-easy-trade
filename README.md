@@ -13,7 +13,7 @@
   - 최대한 Simple하게 사용자가 `사느냐/파느냐` 하는 결정을 내리고 실행할 수 있도록 `coinone-easy-trade`를 개발하였습니다
   - 구조는 백엔드 API 서버 없이, JS로 작성한 [API Wrapper ClassReact](https://github.com/Curzy/coinone-easy-trade/blob/master/src/lib/coinone.js)를 이용해 React앱에서 `Coinone API`서버와 통신합니다
   - 백엔드 서버가 아닌 브라우저에서 구동되는 클라이언트에서 통신하여 `Preflight Request`에서 발생하는 CORS문제를 해결하기 위해 요청 앞에 프록시를 통하게 하였습니다
-  - BTC에 대한 시장가 매도/매수, 주문 확인, 주문 취소 기능 등을 지원하고 있습니다.
+  - BTC에 대한 시장가 매도/매수, 주문 확인, 주문 취소 기능 등을 지원하고 있습니다
 
 
 ## Introduction
