@@ -7,14 +7,20 @@ import CancelOrderButton from 'Components/CancelOrderButton';
 class MyOrderList extends Component {
   
   render() {
-    const myOrders = this.props.limitOrders[this.props.currency]
-      .concat(this.props.completeOrders[this.props.currency]).sort(order => {
-        return order.timestamp
-      })
+    const limitOrders = this.props.limitOrders;
+    const completeOrders = this.props.completeOrders;
+    const currency = this.props.currency;
+
+    const myOrders = limitOrders[currency] === undefined || completeOrders[currency] === undefined ? 
+        [] : limitOrders[currency]
+          .concat(completeOrders[currency]).sort(order => {
+            return order.timestamp
+          })
+
 
     return (
       <table>
-        <caption>거래 내역</caption>
+        <caption>주문 내역</caption>
         <thead>
           <tr>
             <th>시간</th>
@@ -39,12 +45,14 @@ class MyOrderList extends Component {
               <tr key={order.orderId + '_2'}>
                 <td>{this.props.formatMoney(order.price)}</td>
                 <td>{order.type === 'bid' ? '+' : '-'}{this.props.formatMoney(parseInt(order.qty * order.price, 10))}</td>
-                <td>{order.fee !== undefined ? this.props.formatMoney(order.fee) + (order.type === 'bid' ? this.props.currency.toUpperCase() : 'KRW') : '-'}</td>
+                <td>{order.fee !== undefined ? this.props.formatMoney(order.fee) + (order.type === 'bid' ? currency.toUpperCase() : 'KRW') : '-'}</td>
               </tr>
               <tr key={order.orderId + '_3'}>
                 <td colSpan='3'>
                   <CancelOrderButton 
-                  
+                    order={order}
+                    coinone={this.props.coinone}
+                    currency={currency}
                   />
                 </td>
               </tr>

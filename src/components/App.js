@@ -35,7 +35,8 @@ class App extends Component {
     }
 
     this.coinone = new CoinoneAPI(process.env.REACT_APP_ACCESS_TOKEN, process.env.REACT_APP_SECRET_KEY);
-    this.handleOrderTypeChange = this.handleOrderTypeChange.bind(this)
+    this.handleOrderTypeChange = this.handleOrderTypeChange.bind(this);
+    this.refreshInformation = this.refreshInformation.bind(this);
   }
 
   getBaseInformations(coinone) {
@@ -46,43 +47,55 @@ class App extends Component {
     const completeOrders = coinone.completeOrders();
     Promise.all([ticker, userInfo, balance, limitOrders, completeOrders])
       .then(result => {
-        this.setState({
-          ready: true,
-          ticker: {
-            btc: result[0]
-          },
-          userInfo: result[1].userInfo,
-          balance: result[2],
-          limitOrders: {
-            btc: result[3].limitOrders
-          },
-          completeOrders: {
-            btc: result[4].completeOrders
-          }
+        const hasError = result.reduce((prev, curr) => {
+          return prev.result === 'error' || curr.result === 'error'
         })
+
+        if (!hasError) {
+          this.setState({
+            ready: true,
+            ticker: {
+              btc: result[0]
+            },
+            userInfo: result[1].userInfo,
+            balance: result[2],
+            limitOrders: {
+              btc: result[3].limitOrders
+            },
+            completeOrders: {
+              btc: result[4].completeOrders
+            }
+          })
+        }
       })
   }
 
   refreshInformation(coinone) {
     const ticker = coinone.ticker('btc');
-    const balance = coinone.balance();
+    const balance = coinone.accountBalance();
     const limitOrders = coinone.limitOrders();
     const completeOrders = coinone.completeOrders();
 
     Promise.all([ticker, balance, limitOrders, completeOrders])
       .then(result => {
-        this.setState({
-          ticker: {
-            btc: result[0]
-          },
-          balance: result[1],
-          limitOrders: {
-            btc: result[2].limitOrders
-          },
-          completeOrders: {
-            btc: result[3].completeOrders
-          }
+        const hasError = result.reduce((prev, curr) => {
+          return prev.result === 'error' || curr.result === 'error'
         })
+
+        if (!hasError) {
+          this.setState({
+            ticker: {
+              btc: result[0]
+            },
+            balance: result[1],
+            limitOrders: {
+              btc: result[2].limitOrders
+            },
+            completeOrders: {
+              btc: result[3].completeOrders
+            }
+          })
+        }
       })
   }
 
@@ -107,7 +120,7 @@ class App extends Component {
 
   componentDidMount() {
     this.getBaseInformations(this.coinone);
-    this.intervalId = setInterval(this.refreshInfo, 3000, this.coinone);
+    this.intervalId = setInterval(this.refreshInformation, 5000, this.coinone);
   }
 
   componentWillUnmount() {
@@ -133,6 +146,7 @@ class App extends Component {
             <div className={cx('balance-wrapper')}>
               <Balance
                 balance={this.state.balance}
+                isEmptyObject={this.isEmptyObject}
               />
             </div>
             <div className={cx('order-wrapper')}>
@@ -150,9 +164,11 @@ class App extends Component {
             <div className={cx('order-list-wrapper')}>
               <MyOrderList
                 limitOrders={this.state.limitOrders}
+                coinone={this.coinone}
                 completeOrders={this.state.completeOrders}
                 currency={this.state.currency}
                 formatMoney={this.formatMoney}
+                isEmptyObject={this.isEmptyObject}
               />
             </div>
           </div>

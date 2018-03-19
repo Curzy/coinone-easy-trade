@@ -8,4 +8,10 @@
   background-color: $oc-indigo-7;
   color: $oc-gray-0;
   border: 1px solid $oc-indigo-7;
+
+  &.filled {
+    background-color: $oc-gray-3;
+    color: $oc-gray-7;
+    border: 1px solid $oc-gray-3;
+  }
 }
