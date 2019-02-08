@@ -1,4 +1,4 @@
-# coinone-easy-trade
+# coinone-easy-trade (Currently not working; Proxy server died)
 **Easy, Simple trading web for coinone**
 
 ![screenshot](https://i.imgur.com/e2fvcTHl.png)
